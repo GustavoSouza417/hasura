@@ -75,4 +75,4 @@ Execute os comandos abaixo, em ordem, para criar um DDN CLI com PostgreSQL
 
 
 11) ddn console --local
-    Executa o Hasura de forma local, na web
+    Executa o Hasura DDN Console de forma local, na web
