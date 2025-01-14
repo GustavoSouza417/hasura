@@ -1,0 +1,11 @@
+NOME DO PROJETO:
+hasura
+
+NOME DA DDN:
+meu_conector
+
+URL DE CONEXÃO AO CONTÊINER POSTGRESQL:
+postgresql://user:password@local.hasura.dev:4592/dev
+
+PORTA DO ADMINER:
+http://localhost:9457
