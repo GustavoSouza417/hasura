@@ -1,0 +1,28 @@
+Hasura:
+  O Hasura é um software intermediário entre a linguagem GraphQL e o SGBD.
+  O GraphQL em si não consegue dar manutenção em banco de dados, contudo
+  com o Hasura, ele ganha essas possibilidades. Logo, por meio dele, é
+  possível elaborar tudo que envolva DML e DQL por meio do GraphQL, e o restante,
+  que o GraphQL não consegue fazer, como gerenciamento de permissõs,
+  comandos DDL e afins, o próprio Hasura se encarrega de fazer.
+  Tudo isso é feito porque o Hasura também trabalha com um SGBD, então
+  o Hasura recebe comandos GraphQL e os converte para comandos do SGBD,
+  e quando o GraphQL não é capaz de efetuar um comando para determinado fim,
+  o próprio Hasura recebe o comando e o converte para o SGBD.
+
+
+DDN CLI:
+  É a ferramenta do ecossistema Hasura, com interface CLI, que serve para
+  gerenciar DDNs.
+
+
+DDN:
+  A DDN também pode ser chamada de "conector".
+  Uma DDN é a instância de uma conexão entre o Hasura e uma fonte de dados,
+  que pode ser, por exemplo, a instância de um SGBD ou de uma API que te
+  forneça dados. Se for um SGBD, por exemplo, considerando que uma instância
+  de SGBD pode possuir vários bancos de dados, um conector pode conectar o
+  Hasura a vários bancos de dados.
+  A DDN contém informações de conexão entre o Hasura e a fonte de dados, o
+  que permite que o Hasura possa manipular a fonte de dados e abstrair
+  seus comandos, tanto por ele mesmo quanto pelo GraphQL.
