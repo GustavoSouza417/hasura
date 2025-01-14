@@ -1,0 +1,78 @@
+Execute os comandos abaixo, em ordem, para criar um DDN CLI com PostgreSQL
+
+
+1) ddn doctor //comando apenas para diagnóstico
+   Serve para analisar se tudo que o DDN CLI precisa para funcionar
+   está funcionando normalmente. Se algo não estiver OK, você terá
+   que arrumar.
+   Com exceção da autenticação de Login, todas as outras dependências
+   relatadas do Hasura envolvem o Docker.
+   Esse comando pode demorar um pouco para executar.
+
+
+2) ddn auth login
+   Faz login, via web, no site do Hasura, o que automaticamente
+   credencia o seu software DDN CLI
+
+
+3) ddn supergraph init <Nome do Projeto> && cd <Nome do Projeto>
+   Cria um projeto Hasura para você. Esse projeto será instanciado em uma
+   pasta, de acordo com o nome que você der.
+   Esse CD é só para te deslocar para a pasta do projeto.
+
+
+4) ddn connector init <Nome do Conector> -i
+   Cria um conector DDN para o projeto Hasura do diretório corrente.
+   O nome padrão de conectores DDN de PostgreSQL é my_pg
+   Contudo, você pode dar o nome que quiser.
+   Você precisa pressionar ENTER algumas vezes, mesmo após selecionar o SGBD.
+   Esse comando também exibirá qual porta o Adminer e o servidor PostgreSQL usam,
+   como também te concederá uma url para utilizar outras GUI de PostgreSQL alternativas
+   ao Adminer, caso você queira
+
+
+5) docker compose -f app\connector\<Nome do Conector>\compose.postgres-adminer.yaml up -d
+   Cria o contêiner do PostgreSQL e do Adminer a partir de um arquivo
+   que é criado automaticamente após a inicialização do diretório do projeto,
+   que se localiza onde a flag -f indica
+
+
+6) ddn connector introspect <Nome do Conector> //comando apenas para diagnóstico
+   Comando que serve para exibir a estrutura do banco de dados relacionado a
+   um conector.
+
+
+7) ddn connector show-resources <Nome do Conector> //comando apenas para diagnóstico
+   Exibe quais funcionalidades de querys e mutations você tem disponíveis
+   para realizar nesta conexão de DDN
+
+
+8) ddn models add <Nome do Conector> <Nome da Tabela do SGBD>
+   Serve para adicionar tabelas que você criou no SGBD ao Hasura. Dessa forma,
+   ela passará a ser editável pelo Hasura e GraphQL.
+   Nem sempre isso é preciso, pois em alguns casos, o Hasura busca por tabelas
+   não adicionadas automaticamente.
+   De qualquer forma, por prevenção, sempre que criar uma nova tabela, a adicione,
+   por garantia
+
+
+9) ddn supergraph build local
+   Cria um supergraph local, que é uma compilação local do seu projeto.
+   Sempre que fizer alterações, compile novamente o seu projeto.
+
+
+10) ddn run docker-start
+    Cria três contêiners que inicializam os serviços do Hasura localmente
+    O primeiro contêiner é o "Hasura Engine", que serve para gerenciamento
+    O segundo é um contêiner para o DDN do seu projeto
+    O terceiro, aparentemente, é para configurações
+    Sempre que compilar seu projeto, execute esse comando novamente para que a
+    nova compilação seja utilizada
+    Executar esse comando novamente não criará novos contêiners "iguais". apenas
+    sobrescreverá os já existentes
+    Você não conseguirá executar o comando 11 (ddn console --local) sem esse
+    contêiner em execução
+
+
+11) ddn console --local
+    Executa o Hasura de forma local, na web
