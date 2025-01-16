@@ -5,7 +5,7 @@ NOME DA DDN:
 meu_conector
 
 URL DE CONEXÃO AO CONTÊINER POSTGRESQL:
-postgresql://user:password@local.hasura.dev:4592/dev
+postgresql://user:password@local.hasura.dev:4283/dev
 
 PORTA DO ADMINER:
-http://localhost:9457
+http://localhost:4428
