@@ -37,31 +37,48 @@ Execute os comandos abaixo, em ordem, para criar um DDN CLI com PostgreSQL
    que se localiza onde a flag -f indica
 
 
-6) ddn connector introspect <Nome do Conector> //comando apenas para diagnóstico
-   Comando que serve para exibir a estrutura do banco de dados relacionado a
-   um conector.
+6) ddn connector introspect <Nome do Conector>
+   Procura quais tabelas estão criadas no banco de dados e as reconhece.
+   Use esse comando antes de usar o comando número 8, senão você não conseguirá
+   adicionar novas tabelas, afinal a DDN ainda não reconhece a existência delas.
 
 
-7) ddn connector show-resources <Nome do Conector> //comando apenas para diagnóstico
-   Exibe quais funcionalidades de querys e mutations você tem disponíveis
-   para realizar nesta conexão de DDN
+7) ddn connector show-resources <Nome do Conector> //comando apenas para diagnóstico (não obrigatório para fazer a aplicação rodar)
+   Exibe quais tabelas já foram introspectadas, ou seja, reconhecidas pela DDN.
+   As que já foram adicionadas estarão marcadas como adicionadas, e as que estão
+   apenas reconhecidas são marcadas como "available", ou seja, disponíveis para
+   serem adicionadas.
+   Isso ocorre porque a DDN pode reconhecer uma tabela, mas isso não significa que
+   ela pode usar comandos GraphQL sobre ela, a menos que você a adicione.
 
 
 8) ddn models add <Nome do Conector> <Nome da Tabela do SGBD>
    Serve para adicionar tabelas que você criou no SGBD ao Hasura. Dessa forma,
    ela passará a ser editável pelo Hasura e GraphQL.
-   Nem sempre isso é preciso, pois em alguns casos, o Hasura busca por tabelas
-   não adicionadas automaticamente.
-   De qualquer forma, por prevenção, sempre que criar uma nova tabela, a adicione,
-   por garantia
+   Lembrando que isso deve ser feito após a introspecção, senão a DDN não
+   encontrará a tabela e dirá que ela não existe.
 
 
-9) ddn supergraph build local
+9) ddn model add <Nome do Conector> "*"
+   Permite que qualquer tabela seja adicionada ao conector, sem ter que especificar
+   o nome dela. Isso é útil quando você deseja adicionar várias tabelas de uma vez só
+
+
+10) ddn command add <Nome do Conector> "*"
+    Cria mutations de insert, update por ID e delete por ID para
+    todas as tabelas já adicionadas
+
+
+11) ddn relationship add <Nome do Conector> "*"
+    Reconheça e ativa todos os relacionamentos entre tabelas já inspecionadas
+
+
+12) ddn supergraph build local
    Cria um supergraph local, que é uma compilação local do seu projeto.
    Sempre que fizer alterações, compile novamente o seu projeto.
 
 
-10) ddn run docker-start
+13) ddn run docker-start
     Cria três contêiners que inicializam os serviços do Hasura localmente
     O primeiro contêiner é o "Hasura Engine", que serve para gerenciamento
     O segundo é um contêiner para o DDN do seu projeto
@@ -74,5 +91,5 @@ Execute os comandos abaixo, em ordem, para criar um DDN CLI com PostgreSQL
     contêiner em execução
 
 
-11) ddn console --local
+14) ddn console --local
     Executa o Hasura DDN Console de forma local, na web
