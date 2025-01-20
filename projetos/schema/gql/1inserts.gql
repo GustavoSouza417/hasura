@@ -1,0 +1,347 @@
+# você só pode usar queries e mutations criadas pelo Hasura
+# você modifica elas de acordo com suas necessidades para
+# gerar qualquer resultado
+
+# não precisa adicionar os IDs para efetuar as inserções
+# pois são AUTO_INCREMENT, a não ser que você defina o contrário
+
+# tudo é passado em forma de objeto
+
+# se você quiser inserir múltiplos objetos, passe um vetor de objetos
+# lembrando que, de qualquer forma, o parâmetro sempre espera uma lista
+# de objetos, mesmo que você passe apenas um objeto
+
+# por fim, no Hasura, você deve usar os nomes de atributos que
+# ele mesmo gerou. Não use os do banco de dados
+
+# aqui eu não fiz, mas ao invés de passar um INPUT, você pode passar
+# variável por variável também
+
+
+
+
+
+# TABELA CATEGORIA
+
+mutation AdicionarCategoria { # sem variáveis
+    insertCategoria(objects: [{catNome: "Ramon"}]) {
+        returning {
+            catId
+            catNome
+        }
+    }
+}
+
+mutation AdicionarCategoriaV($object: InsertCategoriaObjectInput!) { # com variáveis
+    insertCategoria(objects: [$object]) {
+        returning {
+            catId
+            catNome
+        }
+    }
+}
+
+mutation AdicionarCategorias { # sem variáveis
+    insertCategoria(objects: [
+        {catNome: "Fernando"},
+        {catNome: "Mariana"},
+        {catNome: "Péricles"},
+        {catNome: "Regina"}
+    ]) {
+        returning {
+            catId
+            catNome
+        }
+    }
+}
+
+mutation AdicionarCategoriasV($objects: [InsertCategoriaObjectInput!]!) { # com variáveis
+    insertCategoria(objects: $objects) {
+        returning {
+            catId
+            catNome
+        }
+    }
+}
+
+
+
+
+
+# TABELA LIVRO
+
+mutation AdicionarLivro { # sem variáveis
+    insertLivro(objects: [{
+        livTitulo: "O Iluminado",
+        livAutor: "Não lembro",
+        livAnoPublicacao: "1900"
+    }]) {
+        returning {
+            livId
+            livTitulo
+            livAutor
+            livAnoPublicacao
+        }
+    }
+}
+
+mutation AdicionarLivroV($object: InsertLivroObjectInput!) { # com variáveis
+    insertLivro(objects: [$object]) {
+        returning {
+            livId
+            livTitulo
+            livAutor
+            livAnoPublicacao
+        }
+    }
+}
+
+mutation AdicionarLivros { # sem variáveis
+    insertLivro(objects: [
+        {
+            livTitulo: "Almirante Plebeu",
+            livAutor: "Guimarães Rosa",
+            livAnoPublicacao: "1500"
+        },
+        {
+            livTitulo: "Seja bem-vindo",
+            livAutor: "Donateu Correia",
+            livAnoPublicacao: "1922"
+        }
+    ]) {
+        returning {
+            livId
+            livTitulo
+            livAutor
+            livAnoPublicacao
+        }
+    }
+}
+
+mutation AdicionarLivros($objects: [InsertLivroObjectInput!]!) { # com variáveis
+    insertLivro(objects: $objects) {
+        returning {
+            livId
+            livTitulo
+            livAutor
+            livAnoPublicacao
+        }
+    }
+}
+
+
+
+
+
+# TABELA CATEGORIA_LIVRO (com relacionamentos)
+
+mutation AdicionarCategoriaLivro { # sem variáveis
+    insertCategoriaLivro(objects: [{catId: 1, livId: 1}]) {
+        returning {
+            catId
+            livId
+    
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }
+    
+            categorium { # por algum motivo, o Hasura alterou o nome da tabela
+                catId
+                catNome
+            }
+        }
+    }
+}
+
+mutation AdicionarCategoriaLivroV($object: [InsertCategoriaLivroObjectInput!]!) { # com variáveis
+    insertCategoriaLivro(objects: $object) {
+        returning {
+            catId
+            livId
+
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }
+    
+            categorium { # por algum motivo, o Hasura alterou o nome da tabela
+                catId
+                catNome
+            }
+        }
+    }
+}
+
+mutation AdicionarCategoriasLivros { # sem variáveis
+    insertCategoriaLivro(objects: [
+        {
+            catId: 4,
+            livId: 4
+        },
+        {
+            catId: 5,
+            livId: 5
+        }
+    ]) {
+        returning {
+            catId
+            livId
+
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }
+
+            categorium {
+                catId
+                catNome
+            }
+        }
+    }
+}
+
+mutation AdicionarCategoriasLivrosV($objects: [InsertCategoriaLivroObjectInput!]!) { # com variáveis
+    insertCategoriaLivro(objects: $objects) {
+        returning {
+            catId
+            livId
+
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }
+
+            categorium {
+                catId
+                catNome
+            }
+        }
+    }
+}
+
+
+
+
+
+# TABELA USUARIO
+
+mutation AdicionarUsuario { # sem variáveis
+    insertUsuario(objects: [{
+        usuEmail: "juliana@gmail.com",
+        usuTelefone: "111"
+    }]) {
+        returning {
+            usuId
+            usuEmail
+            usuTelefone
+        }
+    }
+}
+
+mutation AdicionarUsuarioV($object: InsertUsuarioObjectInput!) { # com variáveis
+    insertUsuario(objects: [$object]) {
+        returning {
+            usuId
+            usuEmail
+            usuTelefone
+        }
+    }
+}
+
+mutation AdicionarUsuarios { # sem variáveis
+    insertUsuario(objects: [
+        {
+            usuEmail: "miranha@gmail.com",
+            usuTelefone: "555666777"
+        },
+        {
+            usuEmail: "pilanha@gmail.com",
+            usuTelefone: "99887766"
+        }
+    ]) {
+        returning {
+            usuId
+            usuEmail
+            usuTelefone
+        }
+    }
+}
+
+mutation AdicionarUsuariosV($objects: [InsertUsuarioObjectInput!]!) { # com variáveis
+    insertUsuario(objects: [$objects]) {
+        returning {
+            usuId
+            usuEmail
+            usuTelefone
+        }
+    }
+}
+
+
+
+
+
+# TABELA EMPRESTIMO
+
+mutation AdicionarEmprestimo { # sem variáveis
+    insertEmprestimo(objects: [{
+        empDataRetirada: "2024-12-12",
+        empDataDevolucao: "2024-12-19",
+        empStatus: "confirmada",
+        usuId: 1,
+        livId: 1
+    }]) {
+        returning {
+            empId
+            empDataRetirada
+            empDataDevolucao
+            empStatus
+            
+            usuario {
+                usuId
+                usuEmail
+                usuTelefone
+            }
+
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }
+        }
+    }
+}
+
+mutation AdicionarEmprestimoV($object: InsertEmprestimoObjectInput!) {
+    insertEmprestimo(objects: [$object]) {
+        returning {
+            empId
+            empDataRetirada
+            empDataDevolucao
+            empStatus
+
+            usuario {
+                usuId
+                usuEmail
+                usuTelefone
+            }
+
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }
+        }
+    }
+}
