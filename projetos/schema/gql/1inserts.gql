@@ -277,7 +277,7 @@ mutation AdicionarUsuarios { # sem variáveis
 }
 
 mutation AdicionarUsuariosV($objects: [InsertUsuarioObjectInput!]!) { # com variáveis
-    insertUsuario(objects: [$objects]) {
+    insertUsuario(objects: $objects) {
         returning {
             usuId
             usuEmail
@@ -322,7 +322,7 @@ mutation AdicionarEmprestimo { # sem variáveis
     }
 }
 
-mutation AdicionarEmprestimoV($object: InsertEmprestimoObjectInput!) {
+mutation AdicionarEmprestimoV($object: InsertEmprestimoObjectInput!) { # com variáveis
     insertEmprestimo(objects: [$object]) {
         returning {
             empId
@@ -342,6 +342,194 @@ mutation AdicionarEmprestimoV($object: InsertEmprestimoObjectInput!) {
                 livAutor
                 livAnoPublicacao
             }
+        }
+    }
+}
+
+mutation AdicionarEmprestimos { # sem variáveis
+    insertEmprestimo(objects: [
+        {
+            empDataRetirada: "2000-10-10",
+            empDataDevolucao: "2010-12-12",
+            empStatus: "confirmada",
+            usuId: 3,
+            livId: 3
+        },
+        {
+            empDataRetirada: "2007-09-03",
+            empDataDevolucao: "2002-02-22",
+            empStatus: "cancelada",
+            usuId: 2,
+            livId: 2
+        }
+    ]) {
+        returning {
+            empId
+            empDataRetirada
+            empDataDevolucao
+            empStatus
+
+            usuario {
+                usuId
+                usuEmail
+                usuTelefone
+            }
+
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }
+        }
+    }
+}
+
+mutation AdicionarEmprestimosV($objects: [InsertEmprestimoObjectInput!]!) { # com variáveis
+    insertEmprestimo(objects: $objects) {
+        returning {
+            empId
+            empDataRetirada
+            empDataDevolucao
+            empStatus
+
+            usuario {
+                usuId
+                usuEmail
+                usuTelefone
+            }
+
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }           
+        }
+    }
+}
+
+
+
+
+
+# TABELA RESERVA
+
+mutation AdicionarReserva { # sem variáveis
+    insertReserva(objects: [
+        {
+            resDataReserva: "2000-01-01",
+            resDataDisponivel: "2000-01-10",
+            resStatus: "atrasado",
+            usuId: 5,
+            livId: 5
+        }
+    ]) {
+        returning {
+            resId
+            resDataDisponivel
+            resDataReserva
+            resStatus
+
+            usuario {
+                usuId
+                usuEmail
+                usuTelefone
+            }
+
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }
+        }
+    }
+}
+
+mutation AdicionarReservaV($object: InsertReservaObjectInput!) { # com variáveis
+    insertReserva(objects: [$object]) {
+        returning {
+            resId
+            resDataDisponivel
+            resDataReserva
+            resStatus
+
+            usuario {
+                usuId
+                usuEmail
+                usuTelefone
+            }
+
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }
+        }
+    }
+}
+
+mutation AdicionarReservas { # sem variáveis
+    insertReserva(objects: [
+        {
+            resDataReserva: "2000-01-01",
+            resDataDisponivel: "2000-01-10",
+            resStatus: "atrasado",
+            usuId: 5,
+            livId: 5
+        },
+        {
+            resDataReserva: "2000-01-01",
+            resDataDisponivel: "2000-01-10",
+            resStatus: "atrasado",
+            usuId: 5,
+            livId: 5
+        }
+    ]) {
+        returning {
+            resId
+            resDataDisponivel
+            resDataReserva
+            resStatus
+
+            usuario {
+                usuId
+                usuEmail
+                usuTelefone
+            }
+
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }
+        }
+    }
+}
+
+mutation AdicionarReservasV($objects: [InsertReservaObjectInput!]!) { # com variáveis
+    insertReserva(objects: $objects) {
+        returning {
+            resId
+            resDataDisponivel
+            resDataReserva
+            resStatus
+
+            usuario {
+                usuId
+                usuEmail
+                usuTelefone
+            }
+
+            livro {
+                livId
+                livTitulo
+                livAutor
+                livAnoPublicacao
+            }           
         }
     }
 }
