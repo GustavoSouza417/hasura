@@ -1,0 +1,139 @@
+# FRAGMENTS
+
+fragment usuarioFragment on Usuario {
+    usuId
+    usuEmail
+    usuTelefone
+}
+
+
+
+
+
+# QUERIES BÁSICAS
+
+query ListarUsuarios {
+    usuario {
+        ...usuarioFragment
+    }
+}
+
+query ListarUsuarioPorId($id: Int4!) { # com variáveis e fragments
+    usuarioByUsuId(usuId: $id) {
+        ...usuarioFragment
+    }
+}
+
+query ListarUsuarioPorEmail { # sem variáveis
+    usuarioByUsuEmail(usuEmail: "juliana@gmail.com") {
+        ...usuarioFragment
+    }
+}
+
+
+
+
+
+# LIMIT, OFFSET e ORDER BY
+
+query ListarPrimeirosUsuarios { # limit
+    usuario(limit: 3) {
+        ...usuarioFragment
+    }
+}
+
+query ListarUltimosUsuarios { # limit e order by
+    usuario (
+        limit: 3,
+        order_by: {usuId: Desc}
+    ) {
+        ...usuarioFragment
+    }
+}
+
+query ListarUsuariosDepoisDoTerceiro { # limit, order by e offset
+    usuario (
+        limit: 3,
+        offset: 3, # pula três usuários depois do limit
+        order_by: {usuId: Asc}
+    ) {
+        ...usuarioFragment
+    }
+}
+
+
+
+
+
+# AGGREGATE (count, sum, avg, max, min)
+# serve para realizar operações sobre todo o conjunto de dados
+# de forma que eles sejam agregados e transformados em apenas um
+
+query RetornarQuantidadeUsuarios {
+    usuarioAggregate {
+        _count
+    }
+}
+
+# não consegui realizar nenhuma das outras operações
+
+
+
+
+
+# UTILIZANDO WHERE e expressões booleanas
+
+query SelecionarUsuarioPorId { # isso é diferente da outra query, pois a outra estava pronta e essa foi feita na mão
+    usuario (where: {usuId: {_eq: 1}}) { # _eq -> igual
+        ...usuarioFragment
+    }
+}
+
+query SelecionarUsuariosQueNaoSaoO1 {
+    usuario (where: {usuId: {_neq: 1}}) { # _neq -> diferente de
+        ...usuarioFragment
+    }
+}
+
+query SelecionarUsuariosComIdMaiorQue {
+    usuario (where: {usuId: {_gt: 3}}) { # _gt -> maior do que
+        ...usuarioFragment
+    }
+}
+
+query SelecionarUsuariosComIdMenorQue {
+    usuario (where: {usuId: {_lt: 3}}) { # _lt -> menor do que
+        ...usuarioFragment
+    }
+}
+
+query SelecionarUsuariosComIdEntre1 {
+    usuario (where: {usuId: {_gt: 4, _lt: 6}}) { # passando mais de um parâmetro
+        ...usuarioFragment
+    }
+}
+
+query SelecionarUsuariosComIdEntre2 {
+    usuario (where: {usuId: {_gte: 4, _lte: 6}}) { # maior/menor ou igual
+        ...usuarioFragment
+    }
+}
+
+query SelecionarAlgunsUsuarios {
+    usuario (where: {usuId: {_in: [1, 2, 3]}}) { # _in -> procura pelos valores dentro dele
+        ...usuarioFragment
+    }
+}
+
+query SelecionarUsuarioTelefoneVazio {
+    usuario (where: {usuTelefone: {_is_null: false}}) { # se o campo não fosse NOT NULL, você checaria registros com campos nulos atribuindo TRUE
+        usuId
+        usuEmail
+    }
+}
+
+
+
+
+
+# OPERADORES LÓGICOS
