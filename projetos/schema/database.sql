@@ -1,5 +1,7 @@
 DROP DATABASE IF EXISTS biblioteca;
 
+
+
 CREATE DATABASE biblioteca
     WITH
     OWNER = postgres
@@ -11,13 +13,21 @@ CREATE DATABASE biblioteca
     CONNECTION LIMIT = -1
     IS_TEMPLATE = False;
 
+
+
 CREATE TYPE ENUM_EMP_STATUS AS ENUM('pendente', 'em andamento', 'confirmada', 'cancelada');
 CREATE TYPE ENUM_RES_STATUS AS ENUM('emprestado', 'devolvido', 'atrasado');
+
+
 
 CREATE TABLE categoria (
     cat_id SERIAL PRIMARY KEY NOT NULL,
     cat_nome VARCHAR(50) NOT NULL
 );
+
+SELECT setval('categoria_cat_id_seq', 3, false);
+
+
 
 CREATE TABLE livro (
     liv_id SERIAL PRIMARY KEY NOT NULL,
@@ -25,6 +35,8 @@ CREATE TABLE livro (
     liv_autor VARCHAR(50) NOT NULL,
     liv_ano_publicacao VARCHAR(4) NOT NULL
 );
+
+
 
 CREATE TABLE categoria_livro (
     liv_id INT NOT NULL,
@@ -35,11 +47,15 @@ CREATE TABLE categoria_livro (
     CONSTRAINT fk_cat_id FOREIGN KEY (cat_id) REFERENCES categoria (cat_id)
 );
 
+
+
 CREATE TABLE usuario (
     usu_id SERIAL PRIMARY KEY NOT NULL,
     usu_email VARCHAR(50) NOT NULL UNIQUE,
     usu_telefone VARCHAR(20) NOT NULL UNIQUE
 );
+
+
 
 CREATE TABLE emprestimo (
     emp_id SERIAL PRIMARY KEY NOT NULL,
@@ -52,6 +68,8 @@ CREATE TABLE emprestimo (
     CONSTRAINT fk_usu_id FOREIGN KEY (usu_id) REFERENCES usuario (usu_id),
     CONSTRAINT fk_liv_id FOREIGN KEY (liv_id) REFERENCES livro (liv_id)
 );
+
+
 
 CREATE TABLE reserva (
     res_id SERIAL PRIMARY KEY NOT NULL,
