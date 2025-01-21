@@ -137,3 +137,82 @@ query SelecionarUsuarioTelefoneVazio {
 
 
 # OPERADORES LÓGICOS
+query SelecionarUsuarioAnd {
+    usuario (where: {
+        _and: [
+            { usuId: { _eq: 1 } },
+            { usuEmail: { _eq: "juliana@gmail.com"} }
+        ]
+    }) {
+        ...usuarioFragment        
+    }
+}
+
+query SelecionarUsuarioOr {
+    usuario (where: {
+        _or: [
+            { usuId: { _eq: 1 } },
+            { usuEmail: { _eq: "miranha@gmail.com"} }
+        ]
+    }) {
+        ...usuarioFragment        
+    }
+}
+
+query SelecionarUsuarioNot {
+    usuario (where: {
+        _not: { # o operador NOT só atende uma única condição por vez
+            usuId: { _eq: 1 } 
+        }
+    }) {
+        ...usuarioFragment        
+    }
+}
+
+query SelecionarUsuarioMultiplosNot { # só é possível usar vários NOT dentro de ANDs ou ORs
+    usuario (where: {
+        _and: [
+            { usuId: { _not: { _eq: 1 } } }
+            { usuEmail: { _not: { _eq: "miranha@gmail.com" } } }
+        ]
+    }) {
+        ...usuarioFragment
+    }
+}
+
+
+
+
+
+# FILTROS POR TEXTO (LIKE, SIMILAR  E REGEX)
+query SelecionarPorLike {
+    usuario (where: {
+        usuEmail: { _like: "%juli%" }
+    }) {
+        ...usuarioFragment
+    }
+}
+
+query SelecionarPorIlike { 
+    usuario (where: {
+        usuEmail: { _ilike: "%JULI%" } # igual o like, mas não é case sensitive
+    }) {
+        ...usuarioFragment
+    }
+}
+
+query SelecionarPorNlike { 
+    usuario (where: {
+        usuEmail: { _nlike: "%juli%" } # seleciona tudo que não tiver esse texto (é case sensitive)
+    }) {
+        ...usuarioFragment
+    }
+}
+
+query SelecionarPorNilike { 
+    usuario (where: {
+        usuEmail: { _nilike: "%JULI%" } # seleciona tudo que não tiver esse texto (não é case sensitive)
+    }) {
+        ...usuarioFragment
+    }
+}
