@@ -1,0 +1,37 @@
+fragment usuarioFragment on Usuario {
+    usuId
+    usuNome
+    usuEmail
+    usuTelefone
+}
+
+
+
+
+# forma de alteração padrão
+# pode ser feita por ID ou com qualquer outra UNIQUE
+mutation AlterarUsuarioPorId {
+    updateUsuarioByUsuId(
+        keyUsuId: 1,
+        updateColumns: {usuEmail: {set: "gustavo@gmail.com"}}
+    ) {
+        returning {
+            ...usuarioFragment
+        }
+    }
+}
+
+
+
+
+
+mutation AlterarUsuario {
+    updateUsuarioByUsuId (
+        keyUsuId: [1, 2, 3],
+        updateColumns: {usuNome: {set: "Joaquim Paiva"}}
+    ) {
+        returning {
+            ...usuarioFragment
+        }
+    }
+}
