@@ -1,0 +1,12 @@
+fragment usuarioFragment on Usuario {
+    usuId
+    usuNome
+    usuEmail
+    usuTelefone
+}
+
+mutation DeletarCategoriaLivro {
+    deleteUsuarioByUsuId(keyUsuId: 1) {
+        affectedRows
+    }
+}
