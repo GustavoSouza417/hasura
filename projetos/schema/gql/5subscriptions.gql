@@ -1,0 +1,15 @@
+# as subscriptions são 100% iguais às queries em questão de sintaxe
+# a única diferença é relacionada à palavra chave "subscription" em vez de "query"
+
+fragment usuarioFragment on Usuario {
+    usuId
+    usuNome
+    usuEmail
+    usuTelefone
+}
+
+subscription MostrarUsuariosExistentes {
+    usuario {
+        ...usuarioFragment
+    }
+}
