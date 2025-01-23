@@ -216,4 +216,3 @@ query SelecionarPorNilike {
         ...usuarioFragment
     }
 }
-
